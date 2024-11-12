@@ -14,7 +14,7 @@ export default function Cinema({ searchParams }) {
   const router = useRouter();
   const { id, quantidade } = searchParams;
 
-  // Carregar as informações do localStorage
+  // Carregar as informações passadas no localStorage
   const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
   const filmes = JSON.parse(localStorage.getItem('filmes')) || [];
   const cinemas = JSON.parse(localStorage.getItem('cinemas')) || [];
@@ -29,6 +29,8 @@ export default function Cinema({ searchParams }) {
   // Estado que guarda as cadeiras selecionadas (usando um array de objetos {row, col})
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [occupiedSeats, setOccupiedSeats] = useState([]);  // Cadeiras já ocupadas
+  const [clienteNome, setClienteNome] = useState(cliente?.nome || ''); // Nome do cliente
+  const [quantidadeIngressos, setQuantidadeIngressos] = useState(quantidade || 1); // Quantidade de ingressos
 
   useEffect(() => {
     // Carregar as cadeiras ocupadas para o filme e cinema selecionado
@@ -39,13 +41,19 @@ export default function Cinema({ searchParams }) {
   // Função para gerenciar a seleção/deseleção das cadeiras
   const toggleSeat = (row, col) => {
     const seatId = `${row}-${col}`;
-    
+
     // Verifica se a cadeira já foi ocupada por outro cliente
     if (occupiedSeats.includes(seatId)) {
       alert("Esta cadeira já foi ocupada por outro cliente!");
       return;
     }
-    
+
+    // Verifica se o número máximo de cadeiras foi selecionado
+    if (selectedSeats.length >= quantidadeIngressos && !selectedSeats.includes(seatId)) {
+      alert("Você já selecionou o número máximo de cadeiras.");
+      return;
+    }
+
     setSelectedSeats(prev => {
       // Se a cadeira já estiver selecionada, desmarcamos
       if (prev.includes(seatId)) {
@@ -61,27 +69,83 @@ export default function Cinema({ searchParams }) {
     // Salvar as cadeiras selecionadas no localStorage
     const newOccupiedSeats = [...occupiedSeats, ...selectedSeats];
     setOccupiedSeats(newOccupiedSeats);
-    
+
     // Atualiza o localStorage com as novas cadeiras ocupadas
     localStorage.setItem(`ocupadas-${cinema?.nome}-${filme?.titulo}`, JSON.stringify(newOccupiedSeats));
-    
-    // Atualiza a seleção de cadeiras no cliente
-    cliente.cadeirasSelecionadas = selectedSeats;
-    localStorage.setItem('clientes', JSON.stringify(clientes));
-    
+
+    // Criar uma cópia do objeto cliente e atualizar as cadeiras selecionadas
+    const updatedClientes = [...clientes];
+    const clienteIndex = updatedClientes.findIndex(c => c.id === id);
+    if (clienteIndex !== -1) {
+      updatedClientes[clienteIndex].cadeirasSelecionadas = selectedSeats;
+    }
+    localStorage.setItem('clientes', JSON.stringify(updatedClientes));
+
     alert("Cadeiras selecionadas com sucesso!");
 
     // Redireciona para a próxima página ou realiza outra ação
-    router.push(`/confirmacao?id=${cliente.id}`);
+    router.push(`/confirmacao?id=${id}`);
   };
+
+  // Função para limpar as cadeiras selecionadas
+  const clearSelectedSeats = () => {
+    setSelectedSeats([]);  // Limpa a seleção no estado
+
+    // Criar uma cópia do objeto cliente e limpar as cadeiras selecionadas
+    const updatedClientes = [...clientes];
+    const clienteIndex = updatedClientes.findIndex(c => c.id === id);
+    if (clienteIndex !== -1) {
+      updatedClientes[clienteIndex].cadeirasSelecionadas = [];
+    }
+    localStorage.setItem('clientes', JSON.stringify(updatedClientes));
+
+    alert("Cadeiras selecionadas foram limpas.");
+  };
+
+  // Função para limpar todas as cadeiras ocupadas (nova sessão de cinema)
+  const clearAllOccupiedSeats = () => {
+    setOccupiedSeats([]);  // Limpa todas as cadeiras ocupadas
+
+    // Remove todas as cadeiras ocupadas do localStorage
+    localStorage.removeItem(`ocupadas-${cinema?.nome}-${filme?.titulo}`);
+
+    alert("Todas as cadeiras foram liberadas para uma nova sessão.");
+  };
+
+  // Verifica se todas as cadeiras estão ocupadas
+  const allSeatsOccupied = occupiedSeats.length === rows * columns;
 
   return (
     <Pagina titulo={'Selecione sua Cadeira'}>
       <div className="container my-4">
-        <h1 className="text-center mb-4">Sala de Cinema</h1>
-        <h3>Cinema: {cinema?.nome} | Filme: {filme?.titulo}</h3>
-        <h4>Consumo: {consumo?.comida || 'Nenhum'}</h4>
-        <h4>Quantidade de ingressos: {quantidade}</h4>
+       
+        
+        {/* Formulário para nome do cliente, filme e quantidade */}
+        <div className="mb-4">
+          <label htmlFor="nomeCliente" className="form-label">Nome do Cliente</label>
+          <input
+            type="text"
+            className="form-control"
+            id="nomeCliente"
+            value={clienteNome}
+            onChange={(e) => setClienteNome(e.target.value)}
+            placeholder="Digite seu nome"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="quantidadeIngressos" className="form-label">Quantas cadeiras você comprou?</label>
+          <input
+            type="number"
+            className="form-control"
+            id="quantidadeIngressos"
+            value={quantidadeIngressos}
+            onChange={(e) => setQuantidadeIngressos(e.target.value)}
+            min="1"
+            max={rows * columns}
+          />
+        </div>
+
         <div className="d-flex flex-column align-items-center">
           {Array.from({ length: rows }).map((_, row) => (
             <div key={row} className="d-flex justify-content-center mb-2">
@@ -125,6 +189,22 @@ export default function Cinema({ searchParams }) {
             Confirmar Seleção de Cadeiras
           </button>
         </div>
+
+        {/* Botão para limpar as cadeiras selecionadas */}
+        <div className="text-center mt-4">
+          <button className="btn btn-secondary" onClick={clearSelectedSeats}>
+            Limpar Seleção de Cadeiras
+          </button>
+        </div>
+
+        {/* Botão "Nova Sessão de Cinema" */}
+        {allSeatsOccupied && (
+          <div className="text-center mt-4">
+            <button className="btn btn-warning" onClick={clearAllOccupiedSeats}>
+              Nova Sessão de Cinema
+            </button>
+          </div>
+        )}
       </div>
     </Pagina>
   );

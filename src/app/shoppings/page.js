@@ -42,6 +42,7 @@ export default function ShoppingsPage() {
       <Table striped bordered hover>
         <thead>
           <tr>
+            <th>Foto</th>
             <th>Nome</th>
             <th>Cnpj</th>
             <th>Administrador</th>
@@ -58,6 +59,8 @@ export default function ShoppingsPage() {
           {shoppings.map(shopping => {
             return (
               <tr>
+                <td><img src={shopping.foto} alt="Foto do Shopping" style={{ width: '100px', height: '100px' }} />
+                </td>
                 <td>{shopping.nome}</td>
                 <td>{shopping.cnpj}</td>
                 <td>{shopping.administrador}</td>

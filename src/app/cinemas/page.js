@@ -42,6 +42,7 @@ export default function CinemasPage() {
       <Table striped bordered hover>
         <thead>
           <tr>
+            <th>Foto do Cinema</th>
             <th>Shopping</th>
             <th>Email</th>
             <th>Capacidade</th>
@@ -57,6 +58,8 @@ export default function CinemasPage() {
           {cinemas.map(cinema => {
             return (
               <tr key={cinema.id}>
+                <td><img src={cinema.foto} alt="Foto do Shopping" style={{ width: '100px', height: '100px' }} />
+                </td>
                 <td>{cinema.nome}</td>
                 <td>{cinema.email}</td>
                 <td>{cinema.capacidade}</td>

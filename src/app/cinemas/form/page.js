@@ -226,6 +226,25 @@ export default function CinemaFormPage(props) {
                     </Form.Select>
                     <Form.Control.Feedback type='invalid'>{errors.shopping}</Form.Control.Feedback>
                   </Form.Group>
+                  <Form.Group as={Col}>
+                    <Form.Label>Foto do cinema:</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="foto"
+                      value={values.foto}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      isValid={touched.foto && !errors.foto}
+                      isInvalid={touched.foto && errors.foto}
+                    />
+                    <Form.Control.Feedback type="invalid">{errors.foto}</Form.Control.Feedback>
+
+                    {values.foto && (
+                      <div style={{ marginTop: '10px', textAlign: 'center' }}>
+                        
+                      </div>
+                    )}
+                  </Form.Group>
                 </Row>
 
                 {/* Botões */}

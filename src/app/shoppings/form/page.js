@@ -192,6 +192,25 @@ export default function ShoppingFormPage(props) {
                     />
                     <Form.Control.Feedback type='invalid'>{errors.endereco}</Form.Control.Feedback>
                   </Form.Group>
+                  <Form.Group as={Col}>
+                    <Form.Label>Foto do Shopping:</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="foto"
+                      value={values.foto}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      isValid={touched.foto && !errors.foto}
+                      isInvalid={touched.foto && errors.foto}
+                    />
+                    <Form.Control.Feedback type="invalid">{errors.foto}</Form.Control.Feedback>
+
+                    {values.foto && (
+                      <div style={{ marginTop: '10px', textAlign: 'center' }}>
+                        
+                      </div>
+                    )}
+                  </Form.Group>
                 </Row>
 
                 <Row className='mb-2'>

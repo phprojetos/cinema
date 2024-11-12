@@ -42,6 +42,7 @@ export default function ConsumosPage() {
       <Table striped bordered hover>
         <thead>
           <tr>
+            <th>Foto do Item</th>
             <th>Cinema</th>
             <th>Comidas/Bebidas</th>
             <th>Sabor</th>
@@ -57,6 +58,8 @@ export default function ConsumosPage() {
           {consumos.map(consumo => {
             return (
               <tr key={consumo.id}>
+                <td><img src={consumo.foto} alt="Foto do Item" style={{ width: '100px', height: '100px' }} />
+                </td>
                 <td>{consumo.cinema}</td>
                 <td>{consumo.comida}</td>
                 <td>{consumo.sabor}</td>

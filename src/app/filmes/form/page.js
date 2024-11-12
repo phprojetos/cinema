@@ -107,7 +107,7 @@ export default function FilmesFormPage(props) {
                 {/* Campos do formulário */}
                 
                 <div className='my-3 text-center'>
-                  <h1 >Dados da Empresa</h1>
+                  <h1 >Dados do Filme</h1>
                   <hr></hr>
                 </div>
                 
@@ -178,7 +178,7 @@ export default function FilmesFormPage(props) {
                 </Row>
 
                 <div className='my-3 text-center'>
-                  <h1 >Endereço</h1>
+                  <h1 >Complemento</h1>
                   <hr></hr>
                 </div>
                 

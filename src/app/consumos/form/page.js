@@ -78,11 +78,30 @@ export default function ConsumoFormPage(props) {
                 {/* Campos do formulário */}
                 
                 <div className='my-3 text-center'>
-                  <h1 >Dados da Empresa</h1>
+                  <h1 >Dados da Compra</h1>
                   <hr></hr>
                 </div>
                 
                 <Row className='mb-2'>
+                <Form.Group as={Col}>
+                    <Form.Label>Foto do item:</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="foto"
+                      value={values.foto}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      isValid={touched.foto && !errors.foto}
+                      isInvalid={touched.foto && errors.foto}
+                    />
+                    <Form.Control.Feedback type="invalid">{errors.foto}</Form.Control.Feedback>
+
+                    {values.foto && (
+                      <div style={{ marginTop: '10px', textAlign: 'center' }}>
+                        
+                      </div>
+                    )}
+                    </Form.Group>
                 <Form.Group as={Col}>
                     <Form.Label>Cinema:</Form.Label>
                     <Form.Select
@@ -100,6 +119,9 @@ export default function ConsumoFormPage(props) {
                     </Form.Select>
                     <Form.Control.Feedback type='invalid'>{errors.cinema}</Form.Control.Feedback>
                   </Form.Group>
+                  </Row>
+
+                  <Row className='mb-2'>
                   <Form.Group as={Col}>
                     <Form.Label>Comidas/Bebidas:</Form.Label>
                     <Form.Select
@@ -143,9 +165,9 @@ export default function ConsumoFormPage(props) {
                     </Form.Select>
                     <Form.Control.Feedback type='invalid'>{errors.sabor}</Form.Control.Feedback>
                   </Form.Group>
-                  <Row >
+                  </Row >
 
-                </Row>               
+                <Row className='mb-2'>               
                 <Form.Group as={Col}>
                     <Form.Label>Tamanho:</Form.Label>
                     <Form.Select
@@ -165,14 +187,6 @@ export default function ConsumoFormPage(props) {
                     </Form.Select>
                     <Form.Control.Feedback type='invalid'>{errors.tamanho}</Form.Control.Feedback>
                   </Form.Group>
-                </Row>
-
-                <div className='my-3 text-center'>
-                  <h1 >Endereço</h1>
-                  <hr></hr>
-                </div>
-                
-                <Row className='mb-2'>
                 <Form.Group as={Col}>
                     <Form.Label>Refil:</Form.Label>
                     <Form.Select
