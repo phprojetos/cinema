@@ -41,7 +41,7 @@ export default function HomePage() {
     {
       nome: "Reserve sua Cadeira",
       imagem: "https://thumbs.dreamstime.com/b/escadas-e-cadeiras-em-um-cinema-3316736.jpg",
-      link: "/clientes/form"
+      link: "/cadeiras"
     },
   ]
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { Container, Nav, Navbar } from "react-bootstrap"
-
+import { GrHomeRounded } from "react-icons/gr";
 
 
 
@@ -13,7 +13,7 @@ export default function Pagina({ titulo, children }) {
         {/* Barra de Navegação */}
         <Navbar bg="info" data-bs-theme="warning">
           <Container>
-            <Navbar.Brand href="/">Home</Navbar.Brand>
+            <Navbar.Brand href="/"><GrHomeRounded /> Home</Navbar.Brand>
             <Nav className="me-auto"> {/* Alterado para texto claro */}
               <Nav.Link href="/shoppings">Shopping</Nav.Link>
               <Nav.Link href="/cinemas">Cinema</Nav.Link>

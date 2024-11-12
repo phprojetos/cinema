@@ -7,8 +7,8 @@ import { useRouter } from 'next/navigation';
 // Função principal do componente
 export default function Cinema({ searchParams }) {
   // A quantidade de cadeiras pode ser configurada conforme necessário
-  const rows = 5; // 5 filas de cadeiras
-  const columns = 8; // 8 cadeiras por fila
+  const rows = 6; // 5 filas de cadeiras
+  const columns = 12; // 8 cadeiras por fila
 
   // Recuperando os dados passados na URL (id do cliente e quantidade de ingressos)
   const router = useRouter();
@@ -84,7 +84,7 @@ export default function Cinema({ searchParams }) {
     alert("Cadeiras selecionadas com sucesso!");
 
     // Redireciona para a próxima página ou realiza outra ação
-    router.push(`/confirmacao?id=${id}`);
+    router.push(`/clientes`);
   };
 
   // Função para limpar as cadeiras selecionadas
